@@ -812,6 +812,11 @@ function performAuthentication(data) {
 
 	if (!Helper.config.public && Helper.config.headerAuth.enable) {
 		data.user = socket.handshake.headers[Helper.config.headerAuth.header];
+
+		if (data.user === undefined || data.user === "" || data.user === null) {
+			socket.emit("auth:failed");
+			return;
+		}
 	}
 
 	const finalInit = () =>
